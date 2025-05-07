@@ -6,16 +6,17 @@ using SpotifyAPI.Web;
 using SpotifyAPI.Web.Auth;
 using System.Threading.Tasks;
 using System.Timers;
+using System.Windows.Media;
 
 namespace MusicZero
 {
     public partial class MainWindow : Window
     {
-        private SpotifyClient _spotify;
-        private EmbedIOAuthServer _server;
-        private string _clientId = "ef99f899190c443ebd365f5260e67ca7"; // You'll need to replace this with your Spotify Client ID
-        private string _clientSecret = "11f0d05bd4d941deb668a35487edb143"; // You'll need to replace this with your Spotify Client Secret
-        private Timer _updateTimer;
+        private SpotifyClient? _spotify;
+        private EmbedIOAuthServer? _server;
+        private System.Timers.Timer? _updateTimer;
+        private string _clientId = "ef99f899190c443ebd365f5260e67ca7"; // Get this from https://developer.spotify.com/dashboard
+        private string _clientSecret = "11f0d05bd4d941deb668a35487edb143"; // Get this from https://developer.spotify.com/dashboard
         private const string REDIRECT_URI = "http://127.0.0.1:5000/callback";
 
         public MainWindow()
@@ -45,7 +46,14 @@ namespace MusicZero
 
             var loginRequest = new LoginRequest(_server.BaseUri, _clientId, LoginRequest.ResponseType.Code)
             {
-                Scope = new[] { Scopes.UserReadPlaybackState, Scopes.UserModifyPlaybackState }
+                Scope = new[] { 
+                    Scopes.UserReadPlaybackState, 
+                    Scopes.UserModifyPlaybackState,
+                    Scopes.UserReadCurrentlyPlaying,
+                    Scopes.UserReadPrivate,
+                    Scopes.PlaylistReadPrivate,
+                    Scopes.PlaylistReadCollaborative
+                }
             };
 
             var uri = loginRequest.ToUri();
@@ -58,7 +66,7 @@ namespace MusicZero
 
         private void StartUpdateTimer()
         {
-            _updateTimer = new Timer(1000);
+            _updateTimer = new System.Timers.Timer(1000);
             _updateTimer.Elapsed += async (sender, e) => await UpdatePlaybackInfo();
             _updateTimer.Start();
         }
@@ -76,7 +84,19 @@ namespace MusicZero
                     {
                         TitleText.Text = track.Name;
                         ArtistText.Text = string.Join(", ", track.Artists.Select(a => a.Name));
-                        PlayPauseButton.Content = playback.IsPlaying ? "⏸" : "▶";
+                        PlayPauseIcon.Data = playback.IsPlaying 
+                            ? Geometry.Parse("M6 19h4V5H6v14zm8-14v14h4V5h-4z")  // Pause icon
+                            : Geometry.Parse("M8 5v14l11-7z");  // Play icon
+
+                        // Update progress
+                        if (playback.ProgressMs != null && track.DurationMs != null)
+                        {
+                            ProgressBar.Maximum = track.DurationMs;
+                            ProgressBar.Value = playback.ProgressMs;
+                        }
+
+                        // Get up next track
+                        UpdateUpNext();
                     });
                 }
             }
@@ -84,6 +104,36 @@ namespace MusicZero
             {
                 // Handle any errors silently
             }
+        }
+
+        private async void UpdateUpNext()
+        {
+            try
+            {
+                var queue = await _spotify?.Player.GetQueue();
+                if (queue?.Queue?.Count > 0)
+                {
+                    var nextTrack = queue.Queue[0];
+                    if (nextTrack is FullTrack track)
+                    {
+                        UpNextText.Text = $"{track.Name} - {string.Join(", ", track.Artists.Select(a => a.Name))}";
+                    }
+                }
+                else
+                {
+                    UpNextText.Text = "Nothing";
+                }
+            }
+            catch
+            {
+                UpNextText.Text = "Nothing";
+            }
+        }
+
+        private string FormatTime(int milliseconds)
+        {
+            var timeSpan = TimeSpan.FromMilliseconds(milliseconds);
+            return $"{(int)timeSpan.TotalMinutes}:{timeSpan.Seconds:D2}";
         }
 
         private async void PlayPauseButton_Click(object sender, RoutedEventArgs e)

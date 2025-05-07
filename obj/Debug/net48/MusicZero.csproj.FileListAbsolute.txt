@@ -7,3 +7,17 @@ Z:\Development\WPF\MusicZero\obj\Debug\net48\MusicZero.GeneratedMSBuildEditorCon
 Z:\Development\WPF\MusicZero\obj\Debug\net48\MusicZero.AssemblyInfoInputs.cache
 Z:\Development\WPF\MusicZero\obj\Debug\net48\MusicZero.AssemblyInfo.cs
 Z:\Development\WPF\MusicZero\obj\Debug\net48\MusicZero.csproj.CoreCompileInputs.cache
+Z:\Development\WPF\MusicZero\bin\Debug\net48\MusicZero.exe.config
+Z:\Development\WPF\MusicZero\bin\Debug\net48\MusicZero.exe
+Z:\Development\WPF\MusicZero\bin\Debug\net48\MusicZero.pdb
+Z:\Development\WPF\MusicZero\bin\Debug\net48\EmbedIO.dll
+Z:\Development\WPF\MusicZero\bin\Debug\net48\Newtonsoft.Json.dll
+Z:\Development\WPF\MusicZero\bin\Debug\net48\SpotifyAPI.Web.dll
+Z:\Development\WPF\MusicZero\bin\Debug\net48\SpotifyAPI.Web.Auth.dll
+Z:\Development\WPF\MusicZero\bin\Debug\net48\System.ValueTuple.dll
+Z:\Development\WPF\MusicZero\bin\Debug\net48\Swan.Lite.dll
+Z:\Development\WPF\MusicZero\obj\Debug\net48\App.g.cs
+Z:\Development\WPF\MusicZero\obj\Debug\net48\MusicZero.sourcelink.json
+Z:\Development\WPF\MusicZero\obj\Debug\net48\MusicZero.csproj.Up2Date
+Z:\Development\WPF\MusicZero\obj\Debug\net48\MusicZero.exe
+Z:\Development\WPF\MusicZero\obj\Debug\net48\MusicZero.pdb
