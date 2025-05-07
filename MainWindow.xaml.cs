@@ -9,6 +9,7 @@ using System.Timers;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
+using System.Windows.Interop;
 
 namespace MusicZero
 {
@@ -29,7 +30,26 @@ namespace MusicZero
             InitializeComponent();
             InitializeSpotify();
             InitializeHideTimer();
+            Loaded += Window_Loaded;
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Hide from Alt+Tab
+            var helper = new WindowInteropHelper(this);
+            var exStyle = GetWindowLong(helper.Handle, GWL_EXSTYLE);
+            exStyle |= WS_EX_TOOLWINDOW;
+            SetWindowLong(helper.Handle, GWL_EXSTYLE, exStyle);
+        }
+
+        private const int GWL_EXSTYLE = -20;
+        private const int WS_EX_TOOLWINDOW = 0x00000080;
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
         private async void InitializeSpotify()
         {
@@ -258,6 +278,14 @@ namespace MusicZero
             if (!isAnimating)
             {
                 hideTimer.Start();
+            }
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Application.Current.Shutdown();
             }
         }
     }
