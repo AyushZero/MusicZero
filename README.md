@@ -1,60 +1,73 @@
-# MusicZero
+# MusicZero - Spotify Controller
 
-A sleek, always-on-top music controller for Spotify built with WPF (.NET 8.0). MusicZero provides a minimal interface for controlling your Spotify playback while staying out of your way.
+A sleek, minimal Spotify controller that sits in your system tray and provides quick access to your music controls.
 
 ## Features
 
-- Always-on-top window
-- Real-time track information display
-- Playback controls (play/pause, next, previous)
-- Progress bar with time display
-- Up next track information
-- Draggable interface
-- Modern, minimal design
+- 🎵 Control Spotify playback (play/pause, next, previous)
+- 🎧 View current track information
+- 📝 See upcoming tracks in queue
+- 🖱️ Auto-hiding interface that expands on hover
+- 🔄 Real-time playback progress
+- 🎯 System tray integration for easy access
+- 🎨 Modern, minimal UI design
 
 ## Requirements
 
 - Windows 10 or later
-- .NET 8.0 SDK
-- Spotify Premium account
-- Spotify Developer credentials
+- .NET 8.0 Runtime
+- Spotify Desktop App installed and running
+- Spotify Premium account (required for API access)
 
 ## Setup
 
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/MusicZero.git
-cd MusicZero
-```
-
-2. Create a Spotify Developer application:
-   - Go to [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
-   - Create a new application
-   - Add `http://127.0.0.1:5000/callback` to the Redirect URIs
-   - Copy the Client ID and Client Secret
-
-3. Update the credentials:
-   - Open `MainWindow.xaml.cs`
-   - Replace `YOUR_CLIENT_ID` with your Spotify Client ID
-   - Replace `YOUR_CLIENT_SECRET` with your Spotify Client Secret
-
-4. Build and run:
-```bash
-dotnet build
-dotnet run
-```
+1. Clone this repository
+2. Open the solution in Visual Studio 2022 or later
+3. Build and run the application
+4. On first run, you'll be prompted to authorize the app with your Spotify account
+5. After authorization, the app will minimize to your system tray
 
 ## Usage
 
-- The application will open a browser window for Spotify authentication
-- After authentication, the controller will appear at the top of your screen
-- Drag the window to reposition it
-- Use the playback controls to control your Spotify playback
+- **Show/Hide**: Click the MusicZero icon in the system tray
+- **Controls**:
+  - Play/Pause: Click the play/pause button
+  - Next Track: Click the next button
+  - Previous Track: Click the previous button
+- **Interface**:
+  - Hover over the app to expand it
+  - Move mouse away to auto-hide
+  - Press ESC to minimize to tray
+  - Drag the window to reposition
+
+## System Tray Features
+
+- Double-click the tray icon to show the window
+- Right-click for options:
+  - Show: Display the main window
+  - Exit: Close the application
+
+## Development
+
+### Prerequisites
+
+- Visual Studio 2022 or later
+- .NET 8.0 SDK
+- Spotify Developer Account
+
+### Spotify API Setup
+
+1. Go to [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
+2. Create a new application
+3. Add `http://127.0.0.1:5000/callback` to your Redirect URIs
+4. Copy your Client ID and Client Secret
+5. Update the credentials in `MainWindow.xaml.cs`
 
 ## License
 
-This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-## Contributing
+## Acknowledgments
 
-Contributions are welcome! Please feel free to submit a Pull Request. 
+- Built with WPF and .NET 8.0
+- Uses [SpotifyAPI-NET](https://github.com/JohnnyCrazy/SpotifyAPI-NET) for Spotify integration 
