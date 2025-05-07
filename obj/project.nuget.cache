@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "dgSpecHash": "sa5AREGRBqw=",
+  "success": true,
+  "projectFilePath": "Z:\\Development\\WPF\\MusicZero\\MusicZero.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ayush\\.nuget\\packages\\embedio\\3.5.2\\embedio.3.5.2.nupkg.sha512",
+    "C:\\Users\\ayush\\.nuget\\packages\\microsoft.netframework.referenceassemblies\\1.0.3\\microsoft.netframework.referenceassemblies.1.0.3.nupkg.sha512",
+    "C:\\Users\\ayush\\.nuget\\packages\\microsoft.netframework.referenceassemblies.net48\\1.0.3\\microsoft.netframework.referenceassemblies.net48.1.0.3.nupkg.sha512",
+    "C:\\Users\\ayush\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\ayush\\.nuget\\packages\\spotifyapi.web\\7.2.1\\spotifyapi.web.7.2.1.nupkg.sha512",
+    "C:\\Users\\ayush\\.nuget\\packages\\spotifyapi.web.auth\\7.2.1\\spotifyapi.web.auth.7.2.1.nupkg.sha512",
+    "C:\\Users\\ayush\\.nuget\\packages\\system.valuetuple\\4.5.0\\system.valuetuple.4.5.0.nupkg.sha512",
+    "C:\\Users\\ayush\\.nuget\\packages\\unosquare.swan.lite\\3.1.0\\unosquare.swan.lite.3.1.0.nupkg.sha512"
+  ],
+  "logs": []
+}
