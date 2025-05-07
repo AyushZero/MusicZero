@@ -10,6 +10,9 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using System.Windows.Interop;
+using System.Windows.Forms;
+using System.Drawing;
+using System.ComponentModel;
 
 namespace MusicZero
 {
@@ -24,12 +27,14 @@ namespace MusicZero
         private DispatcherTimer hideTimer = new DispatcherTimer();
         private bool isMouseOver = false;
         private bool isAnimating = false;
+        private NotifyIcon? _notifyIcon;
 
         public MainWindow()
         {
             InitializeComponent();
             InitializeSpotify();
             InitializeHideTimer();
+            InitializeNotifyIcon();
             Loaded += Window_Loaded;
         }
 
@@ -254,7 +259,7 @@ namespace MusicZero
             };
         }
 
-        private void Window_MouseEnter(object sender, MouseEventArgs e)
+        private void Window_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
             isMouseOver = true;
             hideTimer.Stop();
@@ -272,7 +277,7 @@ namespace MusicZero
             }
         }
 
-        private void Window_MouseLeave(object sender, MouseEventArgs e)
+        private void Window_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
             isMouseOver = false;
             if (!isAnimating)
@@ -281,11 +286,54 @@ namespace MusicZero
             }
         }
 
-        private void Window_KeyDown(object sender, KeyEventArgs e)
+        private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
             {
-                Application.Current.Shutdown();
+                this.Hide();
+            }
+        }
+
+        private void InitializeNotifyIcon()
+        {
+            _notifyIcon = new NotifyIcon();
+            _notifyIcon.Icon = new Icon("icon256.ico");
+            _notifyIcon.Visible = true;
+            _notifyIcon.Text = "MusicZero - Spotify Controller";
+
+            var contextMenu = new ContextMenuStrip();
+            contextMenu.Items.Add("Show", null, (s, e) => ShowWindow());
+            contextMenu.Items.Add("Exit", null, (s, e) => CloseApp());
+            _notifyIcon.ContextMenuStrip = contextMenu;
+
+            _notifyIcon.DoubleClick += (s, e) => ShowWindow();
+        }
+
+        private void ShowWindow()
+        {
+            this.Show();
+            this.WindowState = WindowState.Normal;
+            this.Activate();
+        }
+
+        private void CloseApp()
+        {
+            _notifyIcon?.Dispose();
+            System.Windows.Application.Current.Shutdown();
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+            _notifyIcon?.Dispose();
+        }
+
+        protected override void OnStateChanged(EventArgs e)
+        {
+            base.OnStateChanged(e);
+            if (WindowState == WindowState.Minimized)
+            {
+                this.Hide();
             }
         }
     }
