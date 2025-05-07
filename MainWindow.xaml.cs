@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Threading;
 
 namespace MusicZero
 {
@@ -19,11 +20,15 @@ namespace MusicZero
         private string _clientId = "ef99f899190c443ebd365f5260e67ca7"; // Get this from https://developer.spotify.com/dashboard
         private string _clientSecret = "11f0d05bd4d941deb668a35487edb143"; // Get this from https://developer.spotify.com/dashboard
         private const string REDIRECT_URI = "http://127.0.0.1:5000/callback";
+        private DispatcherTimer hideTimer = new DispatcherTimer();
+        private bool isMouseOver = false;
+        private bool isAnimating = false;
 
         public MainWindow()
         {
             InitializeComponent();
             InitializeSpotify();
+            InitializeHideTimer();
         }
 
         private async void InitializeSpotify()
@@ -208,16 +213,52 @@ namespace MusicZero
             DragMove();
         }
 
+        private void InitializeHideTimer()
+        {
+            hideTimer.Interval = TimeSpan.FromSeconds(2);
+            hideTimer.Tick += (s, e) =>
+            {
+                if (!isMouseOver && !isAnimating)
+                {
+                    isAnimating = true;
+                    var animation = (Storyboard)FindResource("CollapseAnimation");
+                    animation.Completed += (sender, args) =>
+                    {
+                        isAnimating = false;
+                        hideTimer.Stop();
+                        Height = 2;
+                        ContentPanel.Visibility = Visibility.Collapsed;
+                    };
+                    animation.Begin();
+                }
+            };
+        }
+
         private void Window_MouseEnter(object sender, MouseEventArgs e)
         {
-            Height = 30;
-            ContentPanel.Visibility = Visibility.Visible;
+            isMouseOver = true;
+            hideTimer.Stop();
+            if (!isAnimating)
+            {
+                isAnimating = true;
+                Height = 30;
+                ContentPanel.Visibility = Visibility.Visible;
+                var animation = (Storyboard)FindResource("ExpandAnimation");
+                animation.Completed += (sender, args) =>
+                {
+                    isAnimating = false;
+                };
+                animation.Begin();
+            }
         }
 
         private void Window_MouseLeave(object sender, MouseEventArgs e)
         {
-            Height = 2;
-            ContentPanel.Visibility = Visibility.Collapsed;
+            isMouseOver = false;
+            if (!isAnimating)
+            {
+                hideTimer.Start();
+            }
         }
     }
 } 

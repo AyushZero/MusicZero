@@ -34,6 +34,32 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Montserrat SemiBold"/>
+            <Setter Property="FontWeight" Value="600"/>
+        </Style>
+
+        <Storyboard x:Key="ExpandAnimation">
+            <DoubleAnimation 
+                Storyboard.TargetName="ContentPanel"
+                Storyboard.TargetProperty="Opacity"
+                From="0" To="1" Duration="0:0:0.2"/>
+            <ThicknessAnimation
+                Storyboard.TargetName="ContentPanel"
+                Storyboard.TargetProperty="Margin"
+                From="0,-28,0,0" To="0,0,0,0" Duration="0:0:0.2"/>
+        </Storyboard>
+        <Storyboard x:Key="CollapseAnimation">
+            <DoubleAnimation 
+                Storyboard.TargetName="ContentPanel"
+                Storyboard.TargetProperty="Opacity"
+                From="1" To="0" Duration="0:0:0.2"/>
+            <ThicknessAnimation
+                Storyboard.TargetName="ContentPanel"
+                Storyboard.TargetProperty="Margin"
+                From="0,0,0,0" To="0,-28,0,0" Duration="0:0:0.2"/>
+        </Storyboard>
     </Window.Resources>
 
     <Grid>
@@ -53,6 +79,8 @@
         <Border x:Name="ContentPanel"
                 Grid.Row="1"
                 Background="#1E1E1E"
+                Opacity="0"
+                Margin="0,-28,0,0"
                 Visibility="Collapsed">
             <Grid Margin="10,0">
                 <Grid.ColumnDefinitions>
