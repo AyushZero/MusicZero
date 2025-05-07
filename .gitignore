@@ -75,4 +75,18 @@ $RECYCLE.BIN/
 *.msp
 
 # Windows shortcuts
-*.lnk 
+*.lnk
+
+# Sensitive files
+appsettings.json
+appsettings.*.json
+*.config
+secrets.json
+
+# ARM build output
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+
+# Log files
+[Ll]og/
+[Ll]ogs/ 

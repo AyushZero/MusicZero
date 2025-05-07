@@ -23,9 +23,16 @@ A sleek, minimal Spotify controller that sits in your system tray and provides q
 
 1. Clone this repository
 2. Open the solution in Visual Studio 2022 or later
-3. Build and run the application
-4. On first run, you'll be prompted to authorize the app with your Spotify account
-5. After authorization, the app will minimize to your system tray
+3. Copy `appsettings.template.json` to `appsettings.json`
+4. Get your Spotify API credentials:
+   - Go to [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
+   - Create a new application
+   - Add `http://127.0.0.1:5000/callback` to your Redirect URIs
+   - Copy your Client ID and Client Secret
+   - Update `appsettings.json` with your credentials
+5. Build and run the application
+6. On first run, you'll be prompted to authorize the app with your Spotify account
+7. After authorization, the app will minimize to your system tray
 
 ## Usage
 

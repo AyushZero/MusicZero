@@ -13,6 +13,7 @@ using System.Windows.Interop;
 using System.Windows.Forms;
 using System.Drawing;
 using System.ComponentModel;
+using Microsoft.Extensions.Configuration;
 
 namespace MusicZero
 {
@@ -21,8 +22,8 @@ namespace MusicZero
         private SpotifyClient? _spotify;
         private EmbedIOAuthServer? _server;
         private System.Timers.Timer? _updateTimer;
-        private string _clientId = "ef99f899190c443ebd365f5260e67ca7"; // Get this from https://developer.spotify.com/dashboard
-        private string _clientSecret = "11f0d05bd4d941deb668a35487edb143"; // Get this from https://developer.spotify.com/dashboard
+        public required string _clientId;
+        public required string _clientSecret;
         private const string REDIRECT_URI = "http://127.0.0.1:5000/callback";
         private DispatcherTimer hideTimer = new DispatcherTimer();
         private bool isMouseOver = false;
@@ -32,10 +33,22 @@ namespace MusicZero
         public MainWindow()
         {
             InitializeComponent();
+            LoadConfiguration();
             InitializeSpotify();
             InitializeHideTimer();
             InitializeNotifyIcon();
             Loaded += Window_Loaded;
+        }
+
+        private void LoadConfiguration()
+        {
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .Build();
+
+            _clientId = configuration["Spotify:ClientId"] ?? throw new InvalidOperationException("Spotify ClientId not found in configuration");
+            _clientSecret = configuration["Spotify:ClientSecret"] ?? throw new InvalidOperationException("Spotify ClientSecret not found in configuration");
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

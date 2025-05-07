@@ -26,3 +26,12 @@ Z:\Development\WPF\MusicZero\obj\Debug\net8.0-windows\MusicZero.pdb
 Z:\Development\WPF\MusicZero\obj\Debug\net8.0-windows\MusicZero.genruntimeconfig.cache
 Z:\Development\WPF\MusicZero\obj\Debug\net8.0-windows\ref\MusicZero.dll
 Z:\Development\WPF\MusicZero\bin\Debug\net8.0-windows\icon256.ico
+Z:\Development\WPF\MusicZero\bin\Debug\net8.0-windows\appsettings.json
+Z:\Development\WPF\MusicZero\bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.dll
+Z:\Development\WPF\MusicZero\bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.Abstractions.dll
+Z:\Development\WPF\MusicZero\bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.FileExtensions.dll
+Z:\Development\WPF\MusicZero\bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.Json.dll
+Z:\Development\WPF\MusicZero\bin\Debug\net8.0-windows\Microsoft.Extensions.FileProviders.Abstractions.dll
+Z:\Development\WPF\MusicZero\bin\Debug\net8.0-windows\Microsoft.Extensions.FileProviders.Physical.dll
+Z:\Development\WPF\MusicZero\bin\Debug\net8.0-windows\Microsoft.Extensions.FileSystemGlobbing.dll
+Z:\Development\WPF\MusicZero\bin\Debug\net8.0-windows\Microsoft.Extensions.Primitives.dll
