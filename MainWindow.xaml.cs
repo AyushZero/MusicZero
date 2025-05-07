@@ -7,6 +7,7 @@ using SpotifyAPI.Web.Auth;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace MusicZero
 {
@@ -89,11 +90,8 @@ namespace MusicZero
                             : Geometry.Parse("M8 5v14l11-7z");  // Play icon
 
                         // Update progress
-                        if (playback.ProgressMs != null && track.DurationMs != null)
-                        {
-                            ProgressBar.Maximum = track.DurationMs;
-                            ProgressBar.Value = playback.ProgressMs;
-                        }
+                        ProgressBar.Maximum = track.DurationMs;
+                        ProgressBar.Value = playback.ProgressMs;
 
                         // Get up next track
                         UpdateUpNext();
@@ -108,25 +106,44 @@ namespace MusicZero
 
         private async void UpdateUpNext()
         {
+            if (_spotify == null) return;
+
             try
             {
-                var queue = await _spotify?.Player.GetQueue();
+                var queue = await _spotify.Player.GetQueue();
                 if (queue?.Queue?.Count > 0)
                 {
-                    var nextTrack = queue.Queue[0];
+                    // Get the first track that isn't the current one
+                    var nextTrack = queue.Queue.FirstOrDefault(t => t is FullTrack);
                     if (nextTrack is FullTrack track)
                     {
-                        UpNextText.Text = $"{track.Name} - {string.Join(", ", track.Artists.Select(a => a.Name))}";
+                        Dispatcher.Invoke(() =>
+                        {
+                            UpNextText.Text = $"{track.Name} - {string.Join(", ", track.Artists.Select(a => a.Name))}";
+                        });
+                    }
+                    else
+                    {
+                        Dispatcher.Invoke(() =>
+                        {
+                            UpNextText.Text = "Nothing";
+                        });
                     }
                 }
                 else
                 {
-                    UpNextText.Text = "Nothing";
+                    Dispatcher.Invoke(() =>
+                    {
+                        UpNextText.Text = "Nothing";
+                    });
                 }
             }
             catch
             {
-                UpNextText.Text = "Nothing";
+                Dispatcher.Invoke(() =>
+                {
+                    UpNextText.Text = "Nothing";
+                });
             }
         }
 
@@ -189,6 +206,18 @@ namespace MusicZero
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
+        }
+
+        private void Window_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Height = 30;
+            ContentPanel.Visibility = Visibility.Visible;
+        }
+
+        private void Window_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Height = 2;
+            ContentPanel.Visibility = Visibility.Collapsed;
         }
     }
 } 
